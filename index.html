@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carte interactive de location de vélos</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+</head>
+
+<body>
+    <div class="container">
+        <img id="slide" name="slide">
+        <div id="textImg"></div>
+        <button class="bouton-slider prevBtn" id="prevBtn"></button>
+        <button class="bouton-slider nextBtn" id="nextBtn"></button>
+        <button class="bouton-pause" id="bouton-pause"><img src="images/pause.png" alt="play" id="btn-pause"></button>
+    </div>
+
+    <div id="infos-map">
+        <div id="map1"></div> 
+        <div id="infos">
+            <div id="statut"></div>
+            <div id="adresse"></div>
+            <div id="veloDispo"></div>
+            <div id="placeDispo"></div>
+            <form action="" method="GET" id="reservation">
+                <label for="nom">Nom : </label>
+                <input id="nom" type="text" name="nom" value="" required pattern="[A-Za-z' -]+">
+                <label for="prenom">Prénom : </label>
+                <input id="prenom" type="text" name="prenom" value="" required pattern="[A-Za-z' -]+">
+                <button id="btnReservation" name="reservation" type="submit">Réserver</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="barre-reservation">
+        <div id="info-reservation"></div>
+        <div id="timer">20:00</div>
+    </div>
+</body>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+<script type="text/javascript" src="slider.js"></script>
+<script type="text/javascript" src="map.js"></script>
+<script type="text/javascript" src="marqueur.js"></script>
+<script type="text/javascript" src="reservation.js"></script>
+<script type="text/javascript" src="controleur.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</html>
+
