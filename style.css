@@ -95,16 +95,16 @@ img {
     text-shadow: 0 0 3px #181818 ;
 }
 
-#infos-map {
-    display: flex;
-}
-
 #infos {
-    width: 300px;
     border: 3px solid #181818;
     display: none;
     background-color: blanchedalmond;
     text-align: center;
+    justify-content: space-around;
+}
+
+#champs {
+    height: 100%;
 }
 
 #map1 {
@@ -149,5 +149,29 @@ img {
     padding: 0 10px;
 }
 
+.btnMarge {
+    margin: 10px;
+}
 
+canvas {
+	border: 2px solid black;
+	background-color: white;
+}
+
+.header{
+	text-decoration: underline;
+}
+
+.buttonSign {
+	margin: auto;
+    padding: 5px;
+    background-color: grey;
+    color: white; 
+    border-radius: 10px;
+}
+
+.buttonSign:active {
+	position:relative;
+	top:1px;
+}
 

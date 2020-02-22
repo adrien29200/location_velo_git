@@ -6,7 +6,11 @@ class Marqueur {
         this.index = index;
         this.response = response;
         this.tableauMarker = [];
+        this.tableauMarkerIndex = [];
         this.dureeTimer = 10;
+        this.nom;
+        this.prenom;
+        this.infoReservation;
         this.emptyIcon();
         this.lowIcon();
         this.mediumIcon();
@@ -21,19 +25,31 @@ class Marqueur {
     ajoutMarker() {
         L.marker(this.station.position, {icon: this.trueIcon}).addTo(this.map).on('click', (event) => {
             this.afficheInfo();
+            this.nom = document.getElementById('nom').value;
+            this.prenom = document.getElementById('prenom').value;
+            this.tableauMarkerIndex.push(this);
+            console.log(this.tableauMarkerIndex);
             let btnReservation = document.getElementById('btnReservation')
-            btnReservation.addEventListener('click', (e) => {
-                if(this.station.available_bikes > 0) {
+            btnReservation.addEventListener('click', (e) => {   
+                if(this.station.available_bikes > 0 && this.nom.length > 1 && this.prenom.length > 1 && mySignature.count > 40) {
                     e.preventDefault();
+                    let myReservation = new Reservation();
                     this.marker = event.target;
+                    this.marker.bindPopup("<b>Marqueur réservé!</b>").openPopup();
                     this.marker.setIcon(this.reservedIcon);
                     controller.ajouterTableau(this.index); //ajoute l'index du marqueur dans tableauMarker
                     sessionStorage.setItem('bookedMarker', JSON.stringify(controller.tableauMarker));
-                    sessionStorage.setItem('stationAdress', this.station.address); //sert pour la classe reservation
+                    sessionStorage.setItem('stationAdress', this.station.address);  
+                    this.infoReservation = document.getElementById('info-reservation');
+                    this.infoReservation.innerHTML = 'votre réservation au nom de ' + this.nom + ' ' + this.prenom + ' à la station ' + this.station.address + ' sera supprimée dans';
+                    sessionStorage.setItem('phrase', this.infoReservation.innerHTML);
                     this.remplacementMarker();
-                } else if (this.station.available_bikes == 0) {
-                    alert("Cette station est vide");
-                    
+                } else if(this.station.available_bikes == 0) {
+                    alert("Cette station est vide");        
+                } else if(this.nom.length < 1 || this.prenom.length < 1) {
+                    alert("Vérifiez les champs NOM et PRENOM")
+                } else if(mySignature.count <= 50){
+                    alert("Votre signature est trop courte. Merci de la compléter ");
                 }
                 
             })
@@ -41,34 +57,31 @@ class Marqueur {
     }
 
     remplacementMarker() {
-        if(sessionStorage.getItem('oldMarker')) { //OldMarker = marker en réservation mais page raffraichie
+        let ArrayPreviousMarker = JSON.parse(sessionStorage.getItem('bookedMarker'));
+        
+        if(sessionStorage.getItem('oldMarker') && ArrayPreviousMarker.length <= 1) { //OldMarker = marker en réservation mais page raffraichie
+            console.log('ok');
             let arrayOldMarker = JSON.parse(sessionStorage.getItem('oldMarker'));
             let oldMarker = arrayOldMarker[arrayOldMarker.length - 1];
             let positionOldMarker = this.response[oldMarker].position;
-            this.map.removeLayer(L.marker([positionOldMarker.lat, positionOldMarker.lng], {icon: this.reservedIcon})); //[positionOldMarker.lat, positionOldMarker.lng]
-            L.marker([positionOldMarker.lat, positionOldMarker.lng], {icon: this.trueIcon}).addTo(this.map);
-            console.log(this.trueIcon);
-            // e.target.setIcon(selectedIcon);
+            L.marker(positionOldMarker).setIcon(this.trueIcon);
         }
-        let ArrayPreviousMarker = JSON.parse(sessionStorage.getItem('bookedMarker'));
-        if(ArrayPreviousMarker.length > 2) { //s'il y a un ancien marker, le supprimer et le rajouter avec trueicon
-            let previousMarker = ArrayPreviousMarker[ArrayPreviousMarker.length - 2];
-            let positionMarker = this.response[previousMarker].position;
-            this.map.removeLayer(positionMarker);
-            L.marker([positionMarker.lat, positionMarker.lng], {icon: this.trueIcon}).addTo(this.map);
-        } else if(ArrayPreviousMarker.length == 2) {
+
+        if(ArrayPreviousMarker.length > 0) { //s'il y a un ancien marker, le supprimer et le rajouter avec trueicon
+            console.log("ok1");
             let previousMarker = ArrayPreviousMarker[ArrayPreviousMarker.length - 1];
             let positionMarker = this.response[previousMarker].position;
-            this.map.removeLayer(positionMarker);
-            L.marker([positionMarker.lat, positionMarker.lng], {icon: this.trueIcon}).addTo(this.map);
+            L.marker(positionMarker).setIcon(this.trueIcon);
         } else {
             console.log("pas d'ancien marqueur ou OldMarker");
         }
+        // L.marker.clearLayers();
     }
 
     retourSurPage() {
+        sessionStorage.setItem('oldMarker', sessionStorage.getItem('bookedMarker'));
         if(sessionStorage.getItem('timer') / 1000 + this.dureeTimer * 60 > Date.now() / 1000 && sessionStorage.getItem('oldMarker') != null) {
-            sessionStorage.setItem('oldMarker', sessionStorage.getItem('bookedMarker'));
+            controller.counter();
             let ArrayPreviousMarker = JSON.parse(sessionStorage.getItem('bookedMarker'));
             let previousMarker = ArrayPreviousMarker[ArrayPreviousMarker.length - 1];
             let positionMarker = this.response[previousMarker].position;
@@ -79,14 +92,15 @@ class Marqueur {
     }
 
     afficheInfo() { 
-        document.getElementById('infos').style.display = 'block';
+        document.getElementById('infos').style.display = 'flex';
 
         if (this.station.status == "OPEN") {
             document.getElementById('statut').innerHTML = 'Cette station est ouverte';
         } else {
             document.getElementById('statut').innerHTML = 'Cette station est fermée';
         }
-        document.getElementById('adresse').innerHTML = 'Adresse: ' + this.station.address;
+        
+        document.getElementById('adresse').innerHTML = 'Adresse: ' + this.station.address.toLowerCase();
         document.getElementById('veloDispo').innerHTML = 'Nombre de vélos disponibles: ' + this.station.available_bikes;
         document.getElementById('placeDispo').innerHTML = 'Nombre de places disponibles: ' + this.station.available_bike_stands;
     }

@@ -1,36 +1,20 @@
 class Controleur {
     constructor() {
-        this.reservation();
-        this.retourSurPage();
+        this.annulation();
         this.duree = 10;
         this.tableauMarker = [];
     }
 
-    reservation() {
-        let btnReservation = document.getElementById('btnReservation')
-        btnReservation.addEventListener('click', (e) => {
-            // console.log(this.station.available_bikes);
-            let myReservation = new Reservation();
-            sessionStorage.setItem('timer', Date.now());
-            this.counter();
+    annulation() {
+        let btnAnnulation = document.getElementById('btnAnnulation');
+        btnAnnulation.addEventListener('click', () => {
+            sessionStorage.clear();
+            clearInterval(this.interval);
         })
     }
 
     ajouterTableau(index) { //sert dans la classe marqueur
         this.tableauMarker.push(index);
-    }
-
-    retourSurPage() {
-        window.onload = () => {
-            if(sessionStorage.getItem('timer') && sessionStorage.getItem('oldMarker') != null) {
-                if(sessionStorage.getItem('timer') / 1000 + this.duree * 60 > Date.now() / 1000) {
-                    this.counter();
-                }
-            } else {
-                console.log("pas d'ancienne réservation pour afficher un compteur");
-            }    
-            
-        } 
     }
 
     counter() {
