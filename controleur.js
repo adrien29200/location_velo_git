@@ -9,6 +9,8 @@ class Controleur {
         let btnAnnulation = document.getElementById('btnAnnulation');
         btnAnnulation.addEventListener('click', () => {
             sessionStorage.clear();
+            document.getElementById("infos").style.display = 'none';
+            document.getElementById("barre-reservation").style.display = 'none';
             clearInterval(this.interval);
         })
     }
