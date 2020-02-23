@@ -43,11 +43,13 @@ class Marqueur {
                     sessionStorage.setItem('stationAdress', this.station.address);  
                     this.infoReservation = document.getElementById('info-reservation');
                     this.infoReservation.innerHTML = 'votre réservation au nom de ' + this.nom + ' ' + this.prenom + ' à la station ' + this.station.address + ' sera supprimée dans';
-                    sessionStorage.setItem('phrase', this.infoReservation.innerHTML);
-                    
+                    sessionStorage.setItem('phrase', this.infoReservation.innerHTML);     
                 } else if(this.station.available_bikes == 0) {
                     alert("Cette station est vide");        
-                } else if(this.nom.length < 1 || this.prenom.length < 1) {
+                    controller.annulation();
+                } else if(this.nom.length <= 1 || this.prenom.length <= 1) {
+                    console.log(this.nom.length);
+                    console.log(this.prenom.length);
                     alert("Vérifiez les champs NOM et PRENOM")
                 } else if(mySignature.count <= 50){
                     alert("Votre signature est trop courte. Merci de la compléter ");
@@ -59,14 +61,17 @@ class Marqueur {
 
     remplacementMarker() {
         let ArrayPreviousMarker = JSON.parse(sessionStorage.getItem('bookedMarker'));
+        console.log(ArrayPreviousMarker);
         
-        if(sessionStorage.getItem('oldMarker') != "null" && ArrayPreviousMarker.length <= 1) { //OldMarker = marker en réservation mais page raffraichie
-            console.log('ok');
-            let arrayOldMarker = JSON.parse(sessionStorage.getItem('oldMarker'));
-            let oldMarker = arrayOldMarker[arrayOldMarker.length - 1];
-            let positionOldMarker = this.response[oldMarker].position;
-            L.marker(positionOldMarker).setIcon(this.trueIcon);
-        }
+        if(sessionStorage.getItem('oldMarker') != "null") {
+            if(ArrayPreviousMarker.length <= 1) {
+                console.log('ok');
+                let arrayOldMarker = JSON.parse(sessionStorage.getItem('oldMarker'));
+                let oldMarker = arrayOldMarker[arrayOldMarker.length - 1];
+                let positionOldMarker = this.response[oldMarker].position;
+                L.marker(positionOldMarker).setIcon(this.trueIcon);
+            }
+        }   //OldMarker = marker en réservation mais page raffraichie
 
         if(ArrayPreviousMarker != null && ArrayPreviousMarker.length > 0) { //s'il y a un ancien marker, le supprimer et le rajouter avec trueicon
             console.log(ArrayPreviousMarker);
@@ -83,9 +88,10 @@ class Marqueur {
 
     retourSurPage() {
         sessionStorage.setItem('oldMarker', sessionStorage.getItem('bookedMarker'));
-        if(sessionStorage.getItem('timer') / 1000 + this.dureeTimer * 60 > Date.now() / 1000 && sessionStorage.getItem('oldMarker') != null) {
+        if(sessionStorage.getItem('timer') / 1000 + this.dureeTimer * 60 > Date.now() / 1000 && sessionStorage.getItem('oldMarker') != "null") {
             controller.counter();
             let ArrayPreviousMarker = JSON.parse(sessionStorage.getItem('bookedMarker'));
+            console.log(ArrayPreviousMarker);
             let previousMarker = ArrayPreviousMarker[ArrayPreviousMarker.length - 1];
             let positionMarker = this.response[previousMarker].position;
             L.marker([positionMarker.lat, positionMarker.lng], {icon: this.reservedIcon}).addTo(this.map);

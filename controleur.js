@@ -1,18 +1,22 @@
 class Controleur {
     constructor() {
-        this.annulation();
+        this.eventAnnulation();
         this.duree = 10;
         this.tableauMarker = [];
     }
 
-    annulation() {
+    eventAnnulation() {
         let btnAnnulation = document.getElementById('btnAnnulation');
         btnAnnulation.addEventListener('click', () => {
-            sessionStorage.clear();
-            document.getElementById("infos").style.display = 'none';
-            document.getElementById("barre-reservation").style.display = 'none';
-            clearInterval(this.interval);
+            this.annulation();
         })
+    }
+
+    annulation() {
+        sessionStorage.clear();
+        document.getElementById("infos").style.display = 'none';
+        document.getElementById("barre-reservation").style.display = 'none';
+        clearInterval(this.interval);
     }
 
     ajouterTableau(index) { //sert dans la classe marqueur
