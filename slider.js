@@ -2,10 +2,10 @@ class Slider {
     constructor() {
         this.i = 0;
         this.images = [['images/img1.jpg', "Faites du vélo votre moyen de transport n°1"], 
-                      ['images/img2.jpg', "Evadez-vous"], 
-                      ['images/img3.jpg', "Découvrez la ville"], 
+                      ['images/img2.jpg', "Cliquez sur le marqueur d'une station de vélos"], 
+                      ['images/img3.jpg', "Rentrez vos informations"], 
                       ['images/img4.jpg', "Réservez en ligne votre vélo"], 
-                      ['images/img5.jpg', "Trajet terminé? Laissez le vélo dans une de nos stations"]];
+                      ['images/img5.jpg', "Votre réservation sera active 20 minutes"]];
         this.time = 5000;
         this.timeOut;
         this.interval();
@@ -27,7 +27,7 @@ class Slider {
         document.getElementById('textImg').innerHTML = '';   //remise à zéro
         let titreSlide = document.createElement('h2');       //mise en h2 des textes
         titreSlide.innerHTML = this.images[this.i][1];       //envoi des textes correspondants aux images
-        document.getElementById('textImg').appendChild(titreSlide); //enfant de div textImg
+        document.getElementById('textImg').appendChild(titreSlide); //h2 enfant de div textImg
         this.interval()
     }
 
@@ -37,7 +37,7 @@ class Slider {
         }, this.time);
     }
     
-    retourBtnPause() {
+    play() {
         let image = document.getElementById('btn-pause');
         image.src = "images/pause.png";
         this.pause = 0;
@@ -46,12 +46,12 @@ class Slider {
     eventListenner() {
         document.getElementById('prevBtn').addEventListener('click', () => {
             this.changeImg(-1);
-            this.retourBtnPause();
+            this.play();
         })
         
         document.getElementById('nextBtn').addEventListener('click', () => {
             this.changeImg(1);
-            this.retourBtnPause();
+            this.play();
         }) 
 
         document.getElementById('bouton-pause').addEventListener('click', () => {
@@ -62,17 +62,17 @@ class Slider {
                 this.pause = 1;
             } else {
                 this.interval();
-                this.retourBtnPause();
+                this.play();
             }
         }) 
             
         window.addEventListener('keydown', (e) => {
             if (e.keyCode == 39) {
                 this.changeImg(1);
-                this.retourBtnPause();
+                this.play();
             } else if (e.keyCode == 37) {
                 this.changeImg(-1);
-                this.retourBtnPause();
+                this.play();
             }
         })        
     }

@@ -5,16 +5,43 @@
 }
 
 body {
-    background-color: #fffbee;
+    background-color: #d1e8bc;
 }
 
 .container {
     width: 70vw;
     height: 55vh;
-    border: 5px solid #181818;
+    border: 5px solid #181818db;
     margin: auto;
     overflow: hidden;
     position: relative;
+}
+
+@media screen and (max-width: 1232px) {
+	.container {
+        height: 40vh;
+    }
+}
+
+@media screen and (max-width: 885px) {
+	.container {
+        width: 100vw;
+        height: 45vh;
+    }
+}
+
+@media screen and (max-width: 710px) {
+	.container {
+        width: 100vw;
+        height: 35vh;
+    }
+}
+
+@media screen and (max-width: 405px) {
+	.container {
+        width: 100vw;
+        height: 28vh;
+    }
 }
 
 img {
@@ -95,12 +122,21 @@ img {
     text-shadow: 0 0 3px #181818 ;
 }
 
+/* section  map et infos */
+
+#infos-map {
+    display: flex;
+    margin-top: 20px;
+}
+
 #infos {
-    border: 3px solid #181818;
+    width: 35vw;
+    border: 3px solid #181818db;
     display: none;
-    background-color: blanchedalmond;
     text-align: center;
     justify-content: space-around;
+    margin-left: 20px;
+    background-color: #ede1d1;
 }
 
 #champs {
@@ -110,6 +146,7 @@ img {
 #map1 {
     height: 400px;
     width: 100%;
+    border: 3px solid #181818db;
 }
 
 #statut, #adresse, #veloDispo, #placeDispo {
@@ -138,11 +175,54 @@ img {
 
 #barre-reservation {
     display: none;
-    height: 30px;
+    height: 40px;
     width: 100%;
-    background-color: #181818;
+    background-color: #181818f2;
     color: white;
     font-weight: bold;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+	#barre-reservation {
+        height: 60px;
+    }
+
+    #infos-map {
+        display: block;
+    }
+
+    #infos {
+        margin: auto;
+        margin-top: 20px;
+        height: 60vh;
+        width: auto;
+    }
+    
+    #reservation {
+        width: 300px;
+        margin: auto;
+    }
+}
+
+@media screen and (min-width: 1270px) {
+    #reservation {
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+	#barre-reservation {
+        height: 120px;
+    }
+}
+
+#timer {
+    padding: 0 15px;
+    margin: 0 10px;
+    height: 36px;
+    line-height: 36px;
+    border: 1.5px solid white;
 }
 
 #info-reservation {
@@ -168,6 +248,12 @@ canvas {
     background-color: grey;
     color: white; 
     border-radius: 10px;
+    text-decoration: none;
+}
+
+#btnSign {
+    background-color: #181818;
+    padding: 10px;
 }
 
 .buttonSign:active {
@@ -175,3 +261,9 @@ canvas {
 	top:1px;
 }
 
+#signature {
+    display: none;
+    text-align: center;
+    justify-content: space-around;
+    padding-block-start: 50px;
+}

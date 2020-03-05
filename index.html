@@ -28,26 +28,27 @@
                 <div id="adresse"></div>
                 <div id="veloDispo"></div>
                 <div id="placeDispo"></div>
-                <form action="" method="GET" id="reservation">
+                <form action="" id="reservation">
                     <label for="nom">Nom : </label>
-                    <input id="nom" type="text" name="nom" value="" required pattern="[A-Za-z' -]+">
+                    <input id="nom" type="text" name="nom" value="" pattern="[A-Za-z' -]+" required>
                     <label for="prenom">Prénom : </label>
-                    <input id="prenom" type="text" name="prenom" value="" required pattern="[A-Za-z' -]+">
-                    <button id="btnReservation" name="reservation" type="submit">Réserver</button>
-                </form>
+                    <input id="prenom" type="text" name="prenom" value="" pattern="[A-Za-z' -]+" required>
+                    <button id="btnSign" class="buttonSign" name="sign" type="submit">Cliquez ici pour signer</button>
+                </form>  
             </div>
-            <div>
-                <form method="POST" accept-charset="utf-8" name="signatureForm">
-                    <h3 class="fontStyle header">Signature</h3>
-                    <p class="btnMarge">
-                        <a href="#" class="buttonSign" id="btnClear">Effacer</a>
-                    </p>
-                    <p>Signez dans la boîte.</p>
-                    <p>
-                        <canvas id="myCanvas" width="200" height="100">Oups! Il semble que votre navigateur ne supporte pas canvas</canvas>
-                    </p>
-                </form>   
-            </div>
+            <div id="signature">
+                    <form method="POST" accept-charset="utf-8" name="signatureForm">
+                        <h3 class="fontStyle header">Signature</h3>
+                        <p class="btnMarge">
+                            <a href="#" class="buttonSign" id="btnClear">Effacer</a>
+                        </p>
+                        <p>Signez dans la boîte.</p>
+                        <p>
+                            <canvas id="myCanvas" width="200" height="100">Oups! Il semble que votre navigateur ne supporte pas canvas</canvas>
+                        </p>
+                        <button id="btnReservation" name="reservation" type="submit">Réserver</button>
+                    </form>
+                </div>
         </div>
         
     </div>
@@ -61,10 +62,11 @@
 </body>
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-    crossorigin=""></script>
+    crossorigin="">
+</script>
 <script type="text/javascript" src="slider.js"></script>
-<script type="text/javascript" src="map.js"></script>
 <script type="text/javascript" src="marqueur.js"></script>
+<script type="text/javascript" src="map.js"></script>
 <script type="text/javascript" src="reservation.js"></script>
 <script type="text/javascript" src="controleur.js"></script>
 <script type="text/javascript" src="signature.js"></script>

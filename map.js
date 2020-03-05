@@ -1,8 +1,8 @@
 class Map {
     constructor() {
-        this.ville = [47.2186371, -1.5541362];
+        this.ville = [47.2186371, -1.5541362]; //coordonnées NANTES
         this.zoom = 12;
-        this.dureeTimer = 10;
+        this.dureeTimer = 20; // a changer aussi dans marqueur et controleur.js
         this.myMap();
         this.previousData();
     }
@@ -16,12 +16,11 @@ class Map {
     }
 
     addMarqueur() {
-        let objectCarte = this;
+        let objectCarte = this; //remplace this pour la réponse à l'API
         let request = new XMLHttpRequest(); //requete au serveur API
         request.onreadystatechange = function () {
             if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                 objectCarte.response = JSON.parse(this.responseText); //réponse
-                // console.log(objectCarte.response);
                 for (let i=0; i<objectCarte.response.length; i++) { //boucle pour extraire chaque marqueur
                     let marqueur = new Marqueur(objectCarte.response[i], objectCarte.map, i, objectCarte.response); //fait appel à l'objet marqueur
                 }
